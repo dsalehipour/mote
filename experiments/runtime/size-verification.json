@@ -1,0 +1,10 @@
+{
+  "baseline_app_bytes": 78417,
+  "candidate_app_bytes": 59233,
+  "reduction_bytes": 19184,
+  "reduction_percent": 24.46,
+  "executable_bytes": 56592,
+  "ui_tested_payload_sha256": "536a0721476f51943bd889dfe08be6d5a9816b4c52526520cdc4de9b01f4a361",
+  "packaged_payload_matches_ui_tested_build": true,
+  "scope": "Signed uncompressed file bytes, not APFS allocation or runtime memory."
+}
