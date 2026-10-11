@@ -1,0 +1,27 @@
+{
+  "scope": "Same source, native dependencies, small signature reserve, one 1000x220 two-line image. Fresh process per timing, warm OS caches. Single compile per option. This does not establish broad speed superiority.",
+  "results": [
+    {
+      "optimization": "-Oz",
+      "executable_bytes": 75792,
+      "compile_seconds": 1.063,
+      "process_ocr_seconds_median": 0.258,
+      "process_ocr_seconds_range": [
+        0.242,
+        0.446
+      ],
+      "runs": 7
+    },
+    {
+      "optimization": "-O3",
+      "executable_bytes": 75728,
+      "compile_seconds": 0.59,
+      "process_ocr_seconds_median": 0.25,
+      "process_ocr_seconds_range": [
+        0.246,
+        0.4
+      ],
+      "runs": 7
+    }
+  ]
+}
