@@ -64,7 +64,9 @@ Shortcut and recognition preferences use macOS user defaults under `com.darius.m
 
 `build-metrics.json` records the exact executable size, total uncompressed app-file bytes, and compilation time. APFS allocated size, compressed download size, and runtime memory are different measurements. Runtime memory is substantially larger than the executable because AppKit and Vision load system code and models.
 
-The 64 KiB app target is a stretch goal and has not been reached by the full UI build. Separate executable, read-only relocation, and writable-data segments account for 64 KiB of page-aligned space before signature/linker data. Read-only data protection, code signing, and normal executable protections remain enabled.
+The normal full UI build remains above the 64 KiB target. Separate executable, read-only relocation, and writable-data segments account for 64 KiB of page-aligned space before signature/linker data. Read-only data protection, code signing, and normal executable protections remain enabled.
+
+An optional [runtime-registration experiment](experiments/runtime/README.md) retains the full interface and shortcut at **59,313 bytes (57.9 KiB)** for the signed app. Its core screen-selection-to-clipboard flow was tested. It keeps memory protections enabled but adds specialized build machinery; it is not the default or installed build.
 
 `benchmark.json` compares `-Oz` and `-O3` on the same two-line image. Their observed timings are close and do not establish general speed superiority. `-O3` was slightly smaller in this comparison and is the default.
 

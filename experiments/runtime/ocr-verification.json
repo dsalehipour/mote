@@ -1,0 +1,51 @@
+{
+  "binary": "experiments/runtime/build/Mote.app/Contents/MacOS/Mote",
+  "cases": [
+    {
+      "case": "large",
+      "passed": true,
+      "runs": 5,
+      "median_seconds": 0.251,
+      "range_seconds": [
+        0.249,
+        0.273
+      ]
+    },
+    {
+      "case": "small-retina",
+      "passed": true,
+      "runs": 5,
+      "median_seconds": 0.256,
+      "range_seconds": [
+        0.25,
+        0.264
+      ]
+    },
+    {
+      "case": "dark",
+      "passed": true,
+      "runs": 5,
+      "median_seconds": 0.264,
+      "range_seconds": [
+        0.258,
+        0.277
+      ]
+    },
+    {
+      "case": "blank",
+      "passed": true,
+      "exit_code": 3
+    },
+    {
+      "case": "invalid",
+      "passed": true,
+      "exit_code": 1
+    },
+    {
+      "case": "missing",
+      "passed": true,
+      "exit_code": 1
+    }
+  ],
+  "timing_scope": "Fresh CLI process per run; includes process launch and OCR. OS caches may be warm. Synthetic fixtures, not a general accuracy benchmark."
+}
