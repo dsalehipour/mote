@@ -1,34 +1,34 @@
 {
-  "binary": "work/mote-size-study/runtime/Mote.app/Contents/MacOS/Mote",
+  "binary": "experiments/runtime/build/Mote.app/Contents/MacOS/Mote",
   "cases": [
     {
       "case": "large",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.236,
+      "median_seconds": 0.251,
       "range_seconds": [
-        0.235,
-        0.461
+        0.249,
+        0.273
       ]
     },
     {
       "case": "small-retina",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.247,
+      "median_seconds": 0.256,
       "range_seconds": [
-        0.238,
-        0.253
+        0.25,
+        0.264
       ]
     },
     {
       "case": "dark",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.245,
+      "median_seconds": 0.264,
       "range_seconds": [
-        0.242,
-        0.253
+        0.258,
+        0.277
       ]
     },
     {

@@ -66,7 +66,7 @@ Shortcut and recognition preferences use macOS user defaults under `com.darius.m
 
 The normal full UI build remains above the 64 KiB target. Separate executable, read-only relocation, and writable-data segments account for 64 KiB of page-aligned space before signature/linker data. Read-only data protection, code signing, and normal executable protections remain enabled.
 
-An optional [runtime-registration experiment](experiments/runtime/README.md) retains the full interface and shortcut at **59,233 bytes (57.8 KiB)** for the signed app. Its core screen-selection-to-clipboard flow was tested. It keeps memory protections enabled but adds specialized build machinery; it is not the default or installed build.
+An optional [runtime-registration experiment](experiments/runtime/README.md) retains the full interface and shortcut at **59,313 bytes (57.9 KiB)** for the signed app. Its core screen-selection-to-clipboard flow was tested. It keeps memory protections enabled but adds specialized build machinery; it is not the default or installed build.
 
 `benchmark.json` compares `-Oz` and `-O3` on the same two-line image. Their observed timings are close and do not establish general speed superiority. `-O3` was slightly smaller in this comparison and is the default.
 

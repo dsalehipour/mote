@@ -84,8 +84,8 @@ static NSString *Recognize(VNImageRequestHandler *handler, BOOL fast, BOOL corre
         [cross moveToPoint:NSMakePoint(cursor.x, cursor.y-8)]; [cross lineToPoint:NSMakePoint(cursor.x, cursor.y+8)]; [cross stroke];
     }
 }
-- (void)mouseDown:(NSEvent *)event { anchor = cursor = [self convertPoint:event.locationInWindow fromView:nil]; selecting = YES; self.needsDisplay = YES; }
-- (void)mouseDragged:(NSEvent *)event { cursor = [self convertPoint:event.locationInWindow fromView:nil]; self.needsDisplay = YES; }
+- (void)mouseDown:(NSEvent *)event { [NSCursor.crosshairCursor set]; anchor = cursor = [self convertPoint:event.locationInWindow fromView:nil]; selecting = YES; self.needsDisplay = YES; }
+- (void)mouseDragged:(NSEvent *)event { [NSCursor.crosshairCursor set]; cursor = [self convertPoint:event.locationInWindow fromView:nil]; self.needsDisplay = YES; }
 - (void)mouseUp:(NSEvent *)event {
     cursor = [self convertPoint:event.locationInWindow fromView:nil];
     NSRect rect = self.selection;
@@ -271,7 +271,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         resultView.accessibilityLabel = @"Recognized text";
         scroll.documentView = resultView; [view addSubview:scroll];
         Label(@"On-device recognition. Last text saved on this Mac.\nScreenshots stay in memory. Settings are in the menu bar.", 14, NSMakeRect(28, 39, 464, 45), view);
-        Label(@"Mote 0.1.0 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
+        Label(@"Mote 0.1.1 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
         captureButton.nextKeyView = openButton;
         openButton.nextKeyView = copyButton;
         copyButton.nextKeyView = resultView;
@@ -409,8 +409,17 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         }];
     }];
 }
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+    if (notification.object != selectionWindow) return;
+    // Activation is asynchronous. Apply after AppKit finishes changing the key
+    // window, so its cursor reset cannot leave the system pointer as an arrow.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (selectionWindow.keyWindow) [NSCursor.crosshairCursor set];
+    });
+}
 - (void)selectSnapshot:(NSImage *)snapshot screen:(NSScreen *)screen {
     selectionWindow = [[SelectionWindow alloc] initWithContentRect:screen.frame styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+    selectionWindow.delegate = (id)self;
     selectionWindow.title = @"Mote — Select text";
     selectionWindow.releasedWhenClosed = NO;
     selectionWindow.level = NSStatusWindowLevel + 1;
@@ -422,6 +431,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     view.completion = ^(NSRect rect) {
         Mote *self = weakSelf;
         [self->selectionWindow close]; self->selectionWindow = nil;
+        [NSCursor.arrowCursor set];
         if (NSIsEmptyRect(rect)) { [self setBusy:NO]; [self setMessage:@"Capture cancelled. Clipboard unchanged."]; return; }
         CGImageRef source = [snapshot CGImageForProposedRect:NULL context:nil hints:nil];
         CGFloat sx = CGImageGetWidth(source) / NSWidth(screen.frame), sy = CGImageGetHeight(source) / NSHeight(screen.frame);
@@ -436,6 +446,10 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     [NSApp activateIgnoringOtherApps:YES];
     [selectionWindow makeKeyAndOrderFront:nil];
     [selectionWindow makeFirstResponder:view];
+    // A shortcut can open the overlay under a stationary pointer, without a
+    // cursor-rectangle entry event. Activate its cursor immediately as well.
+    [selectionWindow invalidateCursorRectsForView:view];
+    [NSCursor.crosshairCursor set];
 }
 @end
 

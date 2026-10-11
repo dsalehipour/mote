@@ -32,3 +32,11 @@ Timing samples and their scope are recorded in `verification.json` and `benchmar
 The complete app is about 77 KiB, so the 64 KiB stretch goal remains open. Framework/model disk size is supplied by macOS, and runtime memory is much larger than the executable. Multiple-display selection is implemented for the screen under the pointer, but moving between different physical displays was not manually verified. Local development signing is verified; notarization and distribution on another Mac are not part of this build.
 
 No server, release deployment, login item, or cloud data store was created. Last text and preferences persist locally as described in the README.
+
+## 0.1.1 cursor correction in the smaller build
+
+Verified on the same Mac and display on 2026-10-11. Reproduced the arrow-cursor symptom using a temporary diagnostic panel that rendered both AppKit's current cursor and the actual system cursor. Before the fix, the former was a 24 × 24 crosshair while the latter was a 28 × 40 arrow, including after the overlay became key. With the fix, both were 24 × 24 crosshairs after activation. The panel was excluded from production.
+
+The fix explicitly applies the crosshair when opening selection, after asynchronous key-window activation, and during dragging. The arrow is restored when selection ends. Both build routes were rebuilt and passed strict signature verification. All 18 existing OCR checks passed against the final smaller executable; results are in experiments/runtime/ocr-verification.json.
+
+Launched the final signed smaller 0.1.1 candidate and confirmed its process path. Inspected the clean selector and main-window screenshots. Command-Shift-2 opened selection; a drag over blank sky completed with “No text found” and retained the previous saved text. The corrected candidate remains running from experiments/runtime/build/Mote.app. The original /Applications/Mote.app is unchanged and closed. The signed candidate totals 59,313 bytes (57.9 KiB), 80 bytes larger than 0.1.0.

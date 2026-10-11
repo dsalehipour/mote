@@ -1,6 +1,6 @@
 # Runtime-registration size experiment
 
-This candidate preserves the full Mote interface, Command-Shift-2, custom screen selection, image picker, preferences, clipboard output, and persistent last result. It reduces the signed app's uncompressed file total from **78,417 to 59,233 bytes**, a **24.46% reduction**. The executable is 56,592 bytes. The installed release is unchanged.
+This candidate preserves the full Mote interface, Command-Shift-2, custom screen selection, image picker, preferences, clipboard output, and persistent last result. It reduces the signed app's uncompressed file total from **78,417 to 59,313 bytes**, a **24.36% reduction**. The executable is 56,672 bytes. The original copy in /Applications is unchanged; the current candidate is version 0.1.1.
 
 ## Build
 
@@ -11,7 +11,7 @@ SIGN_IDENTITY=qopy-dev python3 experiments/runtime/build.py
 python3 tests/verify.py --binary experiments/runtime/build/Mote.app/Contents/MacOS/Mote --report experiments/runtime/build/ocr-verification.json
 ```
 
-Use your own existing signing identity, or omit `SIGN_IDENTITY` for ad-hoc signing. The local test used the existing development certificate. The candidate has the same bundle identifier as Mote: quit the installed app before launching it. Output stays in the ignored `experiments/runtime/build/` directory. The canonical source and normal build remain unchanged.
+Use your own existing signing identity, or omit `SIGN_IDENTITY` for ad-hoc signing. The local test used the existing development certificate. The candidate has the same bundle identifier as Mote: quit the installed app before launching it. Output stays in the ignored `experiments/runtime/build/` directory. Both build routes share the canonical source.
 
 ## How it saves space
 
@@ -27,16 +27,22 @@ The cost is more specialized build machinery and some class-registration work at
 
 Tested on 2026-10-11, Apple M5 Max, macOS 26.6.2:
 
-- All 18 existing OCR checks passed, including large, small Retina-sized, and dark text, plus blank, invalid, and missing images. Fresh-process fixture medians were 0.236–0.247 seconds. See `ocr-verification.json` for scope and results.
+- All 18 existing OCR checks passed, including large, small Retina-sized, and dark text, plus blank, invalid, and missing images. Fresh-process fixture medians were 0.251–0.264 seconds in the 0.1.1 rerun. See `ocr-verification.json` for scope and results.
 - Launched the actual signed candidate and confirmed its process path. Viewed the rendered main window and full-display selector on the 3440 x 1440 display. UI labels, result area, and focus matched the regular app.
 - Command-Shift-2 opened the selector. Dragging over text in Codex recognized 162 characters in 0.23 seconds. Ordinary Command-V into TextEdit reproduced the result.
 - A second capture followed by Escape preserved both the last result and the clipboard, checked with another paste into TextEdit.
 - Tab moved focus from Capture to Open image. Existing menus and their setting choices appeared. Captured text survived quitting and reopening the candidate.
 - Strict signature verification passed. The packaged executable's bytes before the signature exactly match those of the UI-tested build. The builder asserts a zero-file-byte writable segment and preserved constant-data protection.
-- Returned to the original installed app and restored the user's previous last result. No screen-permission setting was changed.
+- After initial testing, returned to the original installed app and restored the previous last result. At the user's request, subsequently launched the smaller candidate; version 0.1.1 is now running. No screen-permission setting was changed.
 
 The automation's keys are app-bound, so a physical global key press while another app is foreground remains unverified. The candidate's image picker, changing preference values, full keyboard rectangle flow, multiple physical displays, other Macs, and notarized distribution have not received a new complete pass. The normal build's earlier coverage is recorded in the root `UI-VERIFICATION.md`.
 
 Last text and preferences use the same durable local locations as the regular app. Screenshots stay in memory; there is no server or deployment step. These figures measure the app's files, excluding system frameworks/models, filesystem allocation, and runtime memory.
 
 Apple references: [runtime class creation](https://developer.apple.com/documentation/ObjectiveC/objc_allocateClassPair%28_%3A_%3A_%3A%29), [method registration](https://github.com/apple-oss-distributions/objc4/blob/main/runtime/runtime.h), and [selector placement](https://github.com/apple-oss-distributions/ld64/blob/main/doc/man/man1/ld-classic.1).
+
+## 0.1.1 cursor correction
+
+A selector opened beneath a stationary pointer could miss a cursor-rectangle entry event. AppKit could also reset the pointer while the overlay became the key window asynchronously. The selector now applies the crosshair when it opens, reapplies it after becoming key and during dragging, and restores the arrow when selection ends.
+
+Temporary in-app diagnostics reproduced the original failure: AppKit's current cursor was a crosshair while the actual system cursor was an arrow. With the fix, both rendered as crosshairs after activation. Diagnostic code was excluded from the shipped build. The final candidate opened with Command-Shift-2, completed a drag over blank screen content, and preserved the saved text. The correction adds 80 bytes to the signed app.
