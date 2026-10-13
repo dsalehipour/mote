@@ -1,6 +1,8 @@
 # Mote
 
-A tiny native Mac utility: select a rectangle on screen, recognize its text locally, and paste it anywhere.
+An experiment to build the smallest Mac app I could while still making something practical. Mote copies text you cannot normally select: press **⌘⇧2**, drag around text on screen, then paste it anywhere. Recognition runs locally on the Mac.
+
+The smallest signed build of **Mote 0.1.2 is 59,265 bytes (57.9 KiB)** for the entire app bundle. That is the sum of its uncompressed files, including its signature. macOS supplies the frameworks and OCR models; their size and runtime memory are separate.
 
 ## Use
 
@@ -17,7 +19,7 @@ The menu bar's text-viewfinder icon and the **Mote** application menu expose:
 
 Accurate recognition and language correction are the defaults. Fast mode can reduce accuracy. Result preview is off by default so successful captures do not interrupt pasting into another app. A checkmark in the menu bar indicates successful copying.
 
-Tab and Shift-Tab move through the main window's controls. Arrow keys move between buttons. In the selector, arrows move the crosshair one point, Space sets the first corner, arrows extend the box, and Return captures. Place the pointer on the desired display before invoking capture; a selection stays on that display.
+Selection uses the mouse: drag from one corner to the other and release to copy. Arrow keys, Space, and Return do not control the selector. Tab and Shift-Tab still move through the main window's controls. Place the pointer on the desired display before invoking capture; a selection stays on that display.
 
 ## Requirements and build
 
@@ -28,6 +30,8 @@ python3 build.py
 open Mote.app
 python3 tests/verify.py --report verification.json
 ```
+
+To build the smallest variant, use `python3 experiments/runtime/build.py`; its app is written to `experiments/runtime/build/Mote.app`. The specialized [runtime-registration build](experiments/runtime/README.md) derives from the same source.
 
 The default build uses ad-hoc signing. For a stable local development identity:
 
@@ -62,11 +66,20 @@ Shortcut and recognition preferences use macOS user defaults under `com.darius.m
 
 ## Size and verification
 
+Measured for version 0.1.2, signed with the existing local development certificate:
+
+| Build | Complete app | Executable |
+| --- | ---: | ---: |
+| Smallest runtime-registration build | **59,265 bytes (57.9 KiB)** | 56,624 bytes |
+| Standard Objective-C build | 78,321 bytes (76.5 KiB) | 75,680 bytes |
+
+Removing keyboard rectangle selection saved 48 app bytes compared with 0.1.1 (59,313 bytes). The machine-code section shrank by 808 bytes, but its 32 KiB aligned segment stayed the same size. Fewer instructions do not always mean an equally large file-size reduction.
+
 `build-metrics.json` records the exact executable size, total uncompressed app-file bytes, and compilation time. APFS allocated size, compressed download size, and runtime memory are different measurements. Runtime memory is substantially larger than the executable because AppKit and Vision load system code and models.
 
 The normal full UI build remains above the 64 KiB target. Separate executable, read-only relocation, and writable-data segments account for 64 KiB of page-aligned space before signature/linker data. Read-only data protection, code signing, and normal executable protections remain enabled.
 
-An optional [runtime-registration experiment](experiments/runtime/README.md) retains the full interface and shortcut at **59,313 bytes (57.9 KiB)** for the signed app. Its core screen-selection-to-clipboard flow was tested. It keeps memory protections enabled but adds specialized build machinery; it is not the default or installed build.
+An optional [runtime-registration experiment](experiments/runtime/README.md) retains the mouse selection interface and shortcut at **59,265 bytes (57.9 KiB)** for the signed app. Its core screen-selection-to-clipboard flow was tested. It keeps memory protections enabled but adds specialized build machinery; it is not the default or installed build.
 
 `benchmark.json` compares `-Oz` and `-O3` on the same two-line image. Their observed timings are close and do not establish general speed superiority. `-O3` was slightly smaller in this comparison and is the default.
 

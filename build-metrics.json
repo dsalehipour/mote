@@ -1,10 +1,10 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "architecture": "arm64",
   "optimization": "-O3",
   "signing": "local development certificate",
-  "compile_seconds": 0.9,
-  "executable_bytes": 75776,
-  "bundle_logical_bytes": 78417,
+  "compile_seconds": 1.217,
+  "executable_bytes": 75680,
+  "bundle_logical_bytes": 78321,
   "note": "Uncompressed file bytes. OS frameworks/models and APFS allocation are separate."
 }

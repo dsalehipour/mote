@@ -1,4 +1,6 @@
-# Mote 0.1.0 verification
+# Mote verification
+
+## 0.1.0 baseline
 
 Verified locally on 2026-10-11, Apple M5 Max, macOS 26.6.2.
 
@@ -40,3 +42,13 @@ Verified on the same Mac and display on 2026-10-11. Reproduced the arrow-cursor 
 The fix explicitly applies the crosshair when opening selection, after asynchronous key-window activation, and during dragging. The arrow is restored when selection ends. Both build routes were rebuilt and passed strict signature verification. All 18 existing OCR checks passed against the final smaller executable; results are in experiments/runtime/ocr-verification.json.
 
 Launched the final signed smaller 0.1.1 candidate and confirmed its process path. Inspected the clean selector and main-window screenshots. Command-Shift-2 opened selection; a drag over blank sky completed with “No text found” and retained the previous saved text. The corrected candidate remains running from experiments/runtime/build/Mote.app. The original /Applications/Mote.app is unchanged and closed. The signed candidate totals 59,313 bytes (57.9 KiB), 80 bytes larger than 0.1.0.
+
+## 0.1.2 mouse-only selection
+
+Verified on 2026-10-12 in the signed smaller build. The actual full-display screenshot was 3456 × 2234 pixels; the main window rendered at 1040 × 1184 pixels. Inspected both at the user's current scale. The selector now shows one legible line, “Drag around text · Escape cancels”, with no keyboard-selection instructions.
+
+Command-Shift-2 opened selection. Pressing Left, Space, Right, Down, and Return did not submit a rectangle; the selector remained open. Escape cancelled and preserved the result. Clicking Capture text also opened selection. Dragging a rectangle over blank content completed with “No text found” and preserved the last result. Separately observed a successful 17-character screen OCR result in the running 0.1.2 app.
+
+The version is visible in the main-window footer. The keyboard rectangle code, drawn keyboard crosshair, and custom main-window arrow navigation are removed; native mouse crosshair behavior and Tab navigation remain. Both build routes passed strict signature checks. Existing OCR checks were reused without adding implementation-mirroring tests; reports are verification.json and experiments/runtime/ocr-verification.json.
+
+The corrected candidate remains running from experiments/runtime/build/Mote.app. The original installed bundle is unchanged. The signed app's uncompressed file total is 59,265 bytes (57.9 KiB), 48 bytes less than 0.1.1. Updated the README and runtime experiment documentation with the practical size-test purpose and exact measured sizes. Historical verification above describes older versions, including their now-removed keyboard selection.

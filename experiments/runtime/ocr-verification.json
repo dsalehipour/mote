@@ -5,30 +5,30 @@
       "case": "large",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.251,
+      "median_seconds": 0.245,
       "range_seconds": [
-        0.249,
-        0.273
+        0.24,
+        0.27
       ]
     },
     {
       "case": "small-retina",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.256,
+      "median_seconds": 0.244,
       "range_seconds": [
-        0.25,
-        0.264
+        0.24,
+        0.247
       ]
     },
     {
       "case": "dark",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.264,
+      "median_seconds": 0.248,
       "range_seconds": [
-        0.258,
-        0.277
+        0.245,
+        0.262
       ]
     },
     {
