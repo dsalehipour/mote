@@ -14,6 +14,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build the compact Apple Silicon app
         run: python3 experiments/runtime/build.py
+      - name: Verify shortcut conflicts in both builds
+        run: python3 tests/verify_hotkey.py
       - name: Verify production OCR
         run: python3 tests/verify.py --binary experiments/runtime/build/Pluck.app/Contents/MacOS/Pluck --report experiments/runtime/build/ocr-verification.json
       - name: Package and verify the archive

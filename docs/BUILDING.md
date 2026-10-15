@@ -73,3 +73,8 @@ The website source is stored and deployed through ChatGPT Sites, independently o
 ## Pluck rename
 
 Version 0.1.3 renames the app, executable, menu, window, and download package to Pluck. The bundle identifier `com.darius.mote`, window autosave key, and `Application Support/Mote` directory intentionally remain unchanged to retain existing settings and saved text. Historical measurements above refer to the versions stated. The release also includes an identical `Mote-macOS-arm64.zip` compatibility asset so old download links continue to work. The internal release metadata marker keeps its original name for existing clients.
+
+
+## Shortcut regression check
+
+After building the compact variant, run `python3 tests/verify_hotkey.py`. It tests the actual registration method in both variants against a separate process holding Command-Shift-9, then verifies recovery when that process exits. It does not synthesize key presses or alter saved preferences. The release workflow runs this alongside OCR and package verification.
