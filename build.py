@@ -8,22 +8,22 @@ import subprocess
 import time
 
 root = Path(__file__).resolve().parent
-app = root / 'Mote.app'
+app = root / 'Pluck.app'
 contents = app / 'Contents'
-binary = contents / 'MacOS' / 'Mote'
+binary = contents / 'MacOS' / 'Pluck'
 binary.parent.mkdir(parents=True, exist_ok=True)
 settings = {
     'CFBundleIdentifier': 'com.darius.mote',
-    'CFBundleName': 'Mote',
-    'CFBundleDisplayName': 'Mote',
-    'CFBundleExecutable': 'Mote',
+    'CFBundleName': 'Pluck',
+    'CFBundleDisplayName': 'Pluck',
+    'CFBundleExecutable': 'Pluck',
     'CFBundlePackageType': 'APPL',
-    'CFBundleShortVersionString': '0.1.1',
-    'CFBundleVersion': '2',
+    'CFBundleShortVersionString': '0.1.3',
+    'CFBundleVersion': '4',
     'LSMinimumSystemVersion': '14.0',
     'LSUIElement': True,
     'NSHighResolutionCapable': True,
-    'NSScreenCaptureUsageDescription': 'Mote reads text only from screen areas you choose.',
+    'NSScreenCaptureUsageDescription': 'Pluck reads text only from screen areas you choose.',
 }
 with (contents / 'Info.plist').open('wb') as f:
     plistlib.dump(settings, f, fmt=plistlib.FMT_BINARY)

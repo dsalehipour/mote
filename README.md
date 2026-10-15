@@ -1,73 +1,54 @@
-# Mote
+# Pluck
 
-A tiny native Mac utility: select a rectangle on screen, recognize its text locally, and paste it anywhere.
+**Copy text you can’t select.**
 
-## Use
+Press **⌘ Shift 2**, drag over text on your screen, then paste it anywhere. Pluck turns words in screenshots, videos, PDFs, and other apps into editable text, with recognition handled locally by macOS.
 
-Open `Mote.app`. Press **Command + Shift + 2**, or click **Capture text**. Drag a rectangle and release. Paste with **Command + V**. **Escape** cancels without replacing the clipboard.
+**[Download for Mac](https://github.com/dsalehipour/pluck/releases/latest/download/Pluck-macOS-arm64.zip)** · **[Visit the website](https://pluck.bigfootenvysme.chatgpt.site)** · [Release notes](https://github.com/dsalehipour/pluck/releases/latest)
 
-On first use, enable Mote in **System Settings → Privacy & Security → Screen & System Audio Recording**. Mote does not capture audio and does not need Accessibility permission. The menu's **Screen capture permission…** action opens the relevant settings.
+## Small by design
 
-The menu bar's text-viewfinder icon and the **Mote** application menu expose:
+Pluck began as a challenge: build the smallest Mac app I could that was also practical. The complete app is approximately **58 KiB**, including its code signature. There is no bundled OCR model or web runtime; it uses the frameworks already on your Mac.
 
-- Capture text; open an existing image; show or copy the last result.
-- Shortcut choices: Command + Shift + 2, 8, or 9. Registration conflicts are reported.
-- Fast recognition, language correction, and optional result preview after capture.
-- Reveal the saved text and quit.
+Exact sizes and checksums are published with [each release](https://github.com/dsalehipour/pluck/releases/latest). App size means uncompressed file bytes; system frameworks, filesystem allocation, and runtime memory are separate.
 
-Accurate recognition and language correction are the defaults. Fast mode can reduce accuracy. Result preview is off by default so successful captures do not interrupt pasting into another app. A checkmark in the menu bar indicates successful copying.
+## Get started
 
-Tab and Shift-Tab move through the main window's controls. Arrow keys move between buttons. In the selector, arrows move the crosshair one point, Space sets the first corner, arrows extend the box, and Return captures. Place the pointer on the desired display before invoking capture; a selection stays on that display.
+1. [Download the latest release](https://github.com/dsalehipour/pluck/releases/latest/download/Pluck-macOS-arm64.zip), unzip it, and move **Pluck.app** to Applications.
+2. Open Pluck and enable **Screen & System Audio Recording** in System Settings when prompted. Pluck captures no audio.
+3. Press **⌘ Shift 2**, drag around the words you want, and release. Paste with **⌘ V**. **Escape** cancels.
 
-## Requirements and build
+Requires **Apple Silicon and macOS 14 or later**. This experimental release is **not notarized by Apple**; macOS may block first launch. If you trust the app, review it in **System Settings → Privacy & Security**.
 
-Apple Silicon, macOS 14 or later. Building requires Apple's Command Line Tools and Python 3. No package download is needed.
+The download button always points to the latest published release.
 
-```sh
-python3 build.py
-open Mote.app
-python3 tests/verify.py --report verification.json
-```
+## A few useful extras
 
-The default build uses ad-hoc signing. For a stable local development identity:
+- Recognize text from an existing image using **Open image**.
+- Reopen or copy your last result from the menu bar.
+- Choose a different shortcut, faster recognition, language correction, or a result preview in the app menu.
 
-```sh
-SIGN_IDENTITY='your-existing-code-signing-identity' python3 build.py
-```
+## Privacy
 
-The delivered local build uses Darius's existing `qopy-dev` certificate with Mote's own bundle identifier, `com.darius.mote`. This keeps screen permission stable across rebuilds. It is a local development build, not an Apple-notarized distribution.
+Recognition runs on your Mac. Pluck has no account, analytics, app network client, or background capture. Screen images stay in memory.
 
-`OPTIMIZE=-Oz` compares size-focused optimization with the default `-O3`. `SIGNATURE_RESERVE` adjusts the signing allocation when using a certificate chain larger than the local development certificate. The build must pass strict code-signature validation.
+The latest successful text result is saved locally and replaced by the next successful capture. Settings and the last result survive restarting the app. Pluck was previously called Mote and retains its original storage locations to preserve existing data: `~/Library/Application Support/Mote/last-result.txt` and preferences under `com.darius.mote`.
 
-## How it works
+## Build from source
 
-Objective-C and AppKit provide the window and menu. Carbon registers a global shortcut without an event tap. ScreenCaptureKit captures one still of the display under the pointer, excluding Mote's own windows. A native overlay presents that image for selection. Only the selected crop goes to Vision text recognition, then to the pasteboard.
-
-The screenshot and crop stay in process memory and are released after the operation. There is no background capture, polling timer, bundled model, web runtime, or app network client. macOS provides the frameworks and recognition models, which are not included in the app's size.
-
-The shared OCR implementation is also callable for repeatable checks:
+Apple’s Command Line Tools and Python 3 are required. No third-party packages are needed.
 
 ```sh
-Mote.app/Contents/MacOS/Mote --ocr image.png
-Mote.app/Contents/MacOS/Mote --ocr image.png fast
+git clone https://github.com/dsalehipour/pluck.git
+cd pluck
+python3 experiments/runtime/build.py
+open experiments/runtime/build/Pluck.app
 ```
 
-Exit codes: 0 means text found; 3 means a valid image with no recognized text; 1 means an image/read error. The CLI prints text only and does not change the clipboard or saved result.
+The compact build uses runtime class registration to reduce binary metadata. The conventional Objective-C build remains available with `python3 build.py`.
 
-## Persistence and privacy
+[Build instructions and architecture](docs/BUILDING.md) · [Size experiment](experiments/runtime/README.md) · [Verification record](UI-VERIFICATION.md)
 
-The most recent successful result is saved as UTF-8 at `~/Library/Application Support/Mote/last-result.txt`, with an owner-only directory and file. A subsequent successful capture replaces that last result. Cancellation and failures leave the last result and clipboard alone. This is a last-result cache, not an unlimited history.
+## Contributing
 
-Shortcut and recognition preferences use macOS user defaults under `com.darius.mote`. Both settings and the last result survive quitting/relaunching. The app bundle contains no user captures or settings. This is a local desktop application; there is no server or production provisioning step.
-
-## Size and verification
-
-`build-metrics.json` records the exact executable size, total uncompressed app-file bytes, and compilation time. APFS allocated size, compressed download size, and runtime memory are different measurements. Runtime memory is substantially larger than the executable because AppKit and Vision load system code and models.
-
-The normal full UI build remains above the 64 KiB target. Separate executable, read-only relocation, and writable-data segments account for 64 KiB of page-aligned space before signature/linker data. Read-only data protection, code signing, and normal executable protections remain enabled.
-
-An optional [runtime-registration experiment](experiments/runtime/README.md) retains the full interface and shortcut at **59,313 bytes (57.9 KiB)** for the signed app. Its core screen-selection-to-clipboard flow was tested. It keeps memory protections enabled but adds specialized build machinery; it is not the default or installed build.
-
-`benchmark.json` compares `-Oz` and `-O3` on the same two-line image. Their observed timings are close and do not establish general speed superiority. `-O3` was slightly smaller in this comparison and is the default.
-
-`tests/verify.py` checks exact OCR output on large text, small Retina-sized text, and light-on-dark text, plus blank, invalid, and missing images. Five separate processes per text case provide basic timing samples. The UI verification record is in `UI-VERIFICATION.md`.
+[Open an issue](https://github.com/dsalehipour/pluck/issues) for a bug or suggestion. For bugs, include your macOS version, app version, and steps to reproduce. Keep changes focused on practical functionality and a small footprint.

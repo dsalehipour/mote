@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the experimental runtime-registered version without changing Mote.app."""
+"""Build the experimental runtime-registered version without changing Pluck.app."""
 from pathlib import Path
 import json
 import runpy
@@ -16,7 +16,7 @@ script_path = here/'build/build.py'
 script_path.write_text(script)
 runpy.run_path(str(script_path), run_name='__main__')
 
-binary = here/'build/Mote.app/Contents/MacOS/Mote'
+binary = here/'build/Pluck.app/Contents/MacOS/Pluck'
 data = binary.read_bytes()
 assert struct.unpack_from('<I', data)[0] == 0xfeedfacf
 commands = struct.unpack_from('<I', data, 16)[0]

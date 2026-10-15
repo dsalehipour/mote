@@ -37,9 +37,8 @@ static NSString *Recognize(VNImageRequestHandler *handler, BOOL fast, BOOL corre
 - (void)sendEvent:(NSEvent *)event {
     if (event.type == NSEventTypeKeyDown && !(event.modifierFlags & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagOption))) {
         NSResponder *current = self.firstResponder;
-        BOOL arrow = [current isKindOfClass:NSButton.class] && event.keyCode >= 123 && event.keyCode <= 126;
-        if (event.keyCode == 48 || arrow) {
-            BOOL back = (event.modifierFlags & NSEventModifierFlagShift) || event.keyCode == 123 || event.keyCode == 126;
+        if (event.keyCode == 48) {
+            BOOL back = event.modifierFlags & NSEventModifierFlagShift;
             NSView *next = [current isKindOfClass:NSView.class] ? (back ? [(NSView *)current previousKeyView] : [(NSView *)current nextKeyView]) : self.initialFirstResponder;
             if (next) { [self makeFirstResponder:next]; return; }
         }
@@ -74,15 +73,10 @@ static NSString *Recognize(VNImageRequestHandler *handler, BOOL fast, BOOL corre
         NSBezierPath *path = [NSBezierPath bezierPathWithRect:rect]; path.lineWidth = 4; [path stroke];
         [NSColor.whiteColor setStroke]; path.lineWidth = 2; [path stroke];
     }
-    NSRect box = NSMakeRect(24, self.bounds.size.height-88, MIN(760, self.bounds.size.width-48), 64);
+    NSRect box = NSMakeRect(24, self.bounds.size.height-68, MIN(320, self.bounds.size.width-48), 44);
     [NSColor.blackColor setFill]; [[NSBezierPath bezierPathWithRoundedRect:box xRadius:10 yRadius:10] fill];
-    NSString *hint = @"Drag around text · Escape cancels\nKeyboard: arrows move · Space starts a box · Return copies";
+    NSString *hint = @"Drag around text · Escape cancels";
     [hint drawInRect:NSInsetRect(box, 16, 10) withAttributes:@{NSFontAttributeName:[NSFont systemFontOfSize:16], NSForegroundColorAttributeName:NSColor.whiteColor}];
-    if (!selecting && !NSEqualPoints(cursor, NSZeroPoint)) {
-        [NSColor.whiteColor setStroke]; NSBezierPath *cross = [NSBezierPath new]; cross.lineWidth = 2;
-        [cross moveToPoint:NSMakePoint(cursor.x-8, cursor.y)]; [cross lineToPoint:NSMakePoint(cursor.x+8, cursor.y)];
-        [cross moveToPoint:NSMakePoint(cursor.x, cursor.y-8)]; [cross lineToPoint:NSMakePoint(cursor.x, cursor.y+8)]; [cross stroke];
-    }
 }
 - (void)mouseDown:(NSEvent *)event { [NSCursor.crosshairCursor set]; anchor = cursor = [self convertPoint:event.locationInWindow fromView:nil]; selecting = YES; self.needsDisplay = YES; }
 - (void)mouseDragged:(NSEvent *)event { [NSCursor.crosshairCursor set]; cursor = [self convertPoint:event.locationInWindow fromView:nil]; self.needsDisplay = YES; }
@@ -93,18 +87,7 @@ static NSString *Recognize(VNImageRequestHandler *handler, BOOL fast, BOOL corre
     else { selecting = NO; self.needsDisplay = YES; }
 }
 - (void)keyDown:(NSEvent *)event {
-    if (event.keyCode == 53) { self.completion(NSZeroRect); return; }
-    if (NSEqualPoints(cursor, NSZeroPoint)) cursor = NSMakePoint(NSMidX(self.bounds), NSMidY(self.bounds));
-    switch (event.keyCode) {
-        case 123: cursor.x = MAX(0, cursor.x-1); break;
-        case 124: cursor.x = MIN(NSWidth(self.bounds), cursor.x+1); break;
-        case 125: cursor.y = MAX(0, cursor.y-1); break;
-        case 126: cursor.y = MIN(NSHeight(self.bounds), cursor.y+1); break;
-        case 49: anchor = cursor; selecting = YES; break;
-        case 36: if (selecting && !NSIsEmptyRect(self.selection)) self.completion(self.selection); return;
-        default: [super keyDown:event]; return;
-    }
-    self.needsDisplay = YES;
+    if (event.keyCode == 53) self.completion(NSZeroRect);
 }
 @end
 
@@ -182,7 +165,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         }
     }
     captureButton.title = [NSString stringWithFormat:@"Capture text   %@", self.shortcut];
-    if (result != noErr) [self setMessage:@"Shortcut is in use. Choose another in the Mote menu."];
+    if (result != noErr) [self setMessage:@"Shortcut is in use. Choose another in the Pluck menu."];
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     prefs = NSUserDefaults.standardUserDefaults;
@@ -196,13 +179,13 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     savedMessage = stateError ? @"Local storage unavailable. Captures can still be copied." : @"Ready. Select an area, then paste its words anywhere.";
 
     status = [NSStatusBar.systemStatusBar statusItemWithLength:NSVariableStatusItemLength];
-    status.button.image = [NSImage imageWithSystemSymbolName:@"text.viewfinder" accessibilityDescription:@"Mote"];
+    status.button.image = [NSImage imageWithSystemSymbolName:@"text.viewfinder" accessibilityDescription:@"Pluck"];
     status.button.image.template = YES;
-    status.button.toolTip = @"Mote — copy text from your screen";
+    status.button.toolTip = @"Pluck — copy text from your screen";
     NSMenu *menu = [NSMenu new]; menu.delegate = (id)self; status.menu = menu;
     captureMenu = [self item:@"Capture text" action:@selector(capture:) menu:menu];
     [self item:@"Open image…" action:@selector(openImage:) menu:menu];
-    [self item:@"Show Mote / last result" action:@selector(show:) menu:menu];
+    [self item:@"Show Pluck / last result" action:@selector(show:) menu:menu];
     [self item:@"Copy last result" action:@selector(copyResult:) menu:menu];
     [menu addItem:NSMenuItem.separatorItem];
     NSMenu *shortcuts = [NSMenu new];
@@ -218,12 +201,12 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     [self item:@"Screen capture permission…" action:@selector(permission:) menu:menu];
     [self item:@"Reveal saved text" action:@selector(reveal:) menu:menu];
     [menu addItem:NSMenuItem.separatorItem];
-    NSMenuItem *quit = [self item:@"Quit Mote" action:@selector(quit:) menu:menu];
+    NSMenuItem *quit = [self item:@"Quit Pluck" action:@selector(quit:) menu:menu];
     quit.keyEquivalent = @"q";
 
     // Standard application/edit menus make text selection and keyboard navigation work.
     NSMenu *main = [NSMenu new];
-    NSMenuItem *appItem = [main addItemWithTitle:@"Mote" action:NULL keyEquivalent:@""];
+    NSMenuItem *appItem = [main addItemWithTitle:@"Pluck" action:NULL keyEquivalent:@""];
     // The same actions are keyboard-accessible from the app menu as from its status item.
     NSMenu *appMenu = [menu copy]; appMenu.delegate = (id)self; appItem.submenu = appMenu;
     NSMenuItem *edit = [main addItemWithTitle:@"Edit" action:NULL keyEquivalent:@""];
@@ -247,7 +230,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         window = [[MoteWindow alloc] initWithContentRect:NSMakeRect(0, 0, 520, 560)
             styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable
             backing:NSBackingStoreBuffered defer:NO];
-        window.title = @"Mote"; window.releasedWhenClosed = NO;
+        window.title = @"Pluck"; window.releasedWhenClosed = NO;
         [window setFrameAutosaveName:@"MoteWindow"];
         NSView *view = window.contentView;
         Label(@"Copy the uncopyable.", 29, NSMakeRect(28, 488, 464, 42), view);
@@ -271,7 +254,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         resultView.accessibilityLabel = @"Recognized text";
         scroll.documentView = resultView; [view addSubview:scroll];
         Label(@"On-device recognition. Last text saved on this Mac.\nScreenshots stay in memory. Settings are in the menu bar.", 14, NSMakeRect(28, 39, 464, 45), view);
-        Label(@"Mote 0.1.1 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
+        Label(@"Pluck 0.1.3 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
         captureButton.nextKeyView = openButton;
         openButton.nextKeyView = copyButton;
         copyButton.nextKeyView = resultView;
@@ -380,7 +363,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setBusy:NO];
                 BOOL denied = [error.domain isEqualToString:SCStreamErrorDomain] && error.code == SCStreamErrorUserDeclined;
-                [self setMessage:denied ? @"Allow Mote in System Settings → Privacy & Security → Screen & System Audio Recording, then try again." : @"Screen capture could not start. Check the display connection and try again."];
+                [self setMessage:denied ? @"Allow Pluck in System Settings → Privacy & Security → Screen & System Audio Recording, then try again." : @"Screen capture could not start. Check the display connection and try again."];
                 [self show:nil];
             }); return;
         }
@@ -420,13 +403,13 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
 - (void)selectSnapshot:(NSImage *)snapshot screen:(NSScreen *)screen {
     selectionWindow = [[SelectionWindow alloc] initWithContentRect:screen.frame styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     selectionWindow.delegate = (id)self;
-    selectionWindow.title = @"Mote — Select text";
+    selectionWindow.title = @"Pluck — Select text";
     selectionWindow.releasedWhenClosed = NO;
     selectionWindow.level = NSStatusWindowLevel + 1;
     selectionWindow.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorFullScreenAuxiliary;
     SelectionView *view = [[SelectionView alloc] initWithFrame:NSMakeRect(0, 0, NSWidth(screen.frame), NSHeight(screen.frame))];
     view.snapshot = snapshot;
-    view.accessibilityLabel = @"Select text. Drag a rectangle, or use arrows, Space, Return. Escape cancels.";
+    view.accessibilityLabel = @"Select text. Drag a rectangle. Escape cancels.";
     __weak Mote *weakSelf = self;
     view.completion = ^(NSRect rect) {
         Mote *self = weakSelf;

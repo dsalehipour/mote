@@ -1,0 +1,35 @@
+name: Build and release Pluck
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the compact Apple Silicon app
+        run: python3 experiments/runtime/build.py
+      - name: Verify production OCR
+        run: python3 tests/verify.py --binary experiments/runtime/build/Pluck.app/Contents/MacOS/Pluck --report experiments/runtime/build/ocr-verification.json
+      - name: Package and verify the archive
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python3 scripts/package_release.py --tag "$RELEASE_TAG" --output work/release
+      - name: Publish a complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            work/release/Pluck-macOS-arm64.zip \
+            work/release/Mote-macOS-arm64.zip \
+            work/release/release.json \
+            work/release/SHA256SUMS.txt \
+            experiments/runtime/build/ocr-verification.json \
+            --verify-tag --title "Pluck $RELEASE_TAG" \
+            --notes-file work/release/release-notes.md
