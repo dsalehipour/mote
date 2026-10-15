@@ -22,6 +22,8 @@ Requires **Apple Silicon and macOS 14 or later**. This experimental release is *
 
 The download button always points to the latest published release.
 
+When upgrading from Mote, quit the old copy before opening Pluck. Pluck claims its capture shortcut exclusively so another copy cannot open a second selector. If a different app already owns that shortcut, choose another in the Pluck menu.
+
 ## A few useful extras
 
 - Recognize text from an existing image using **Open image**.

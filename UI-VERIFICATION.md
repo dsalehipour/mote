@@ -58,3 +58,14 @@ The corrected candidate remains running from experiments/runtime/build/Mote.app.
 Both the conventional and compact certificate-signed builds passed all 18 existing OCR checks. Strict code-signature checks and ZIP extraction with byte-for-byte comparison passed. The compact local bundle is 59,267 bytes, including its signature; its executable is 56,624 bytes.
 
 Launched the compact Pluck.app and visually inspected the renamed main window, footer, and application menu. The existing saved result loaded from the unchanged storage location. Command-Shift-2 opened the renamed selection overlay and Escape returned to the app. No screen-capture permission change was needed on this Mac. This focused rename check does not establish notarization, behavior on other Macs, or a new complete capture-to-paste regression pass.
+
+
+## 0.1.4 overlapping selectors (2026-10-15)
+
+Found Mote 0.1.2 and Pluck 0.1.3 running concurrently from separate bundles with the same capture shortcut. The app registered Carbon hotkeys with options 0. Apple's installed CarbonEvents.h documents that this allows multiple applications to receive the same shortcut. The fix uses kEventHotKeyExclusive so only the owning app receives it; a conflicting exclusive registration uses the existing conflict message.
+
+A real two-process regression test holds an exclusive shortcut, then calls the production registration method. Version 0.1.3 incorrectly reports success; the corrected conventional and generated runtime builds both report a conflict, then successfully register after the holder exits. The test emits no keyboard input and does not write user preferences. The release workflow runs it before OCR verification.
+
+Closed the old Mote process and restarted the compact Pluck 0.1.4 build. One drag completed a screen capture, recognized 66 characters in 0.48 seconds, closed the selector, and copied the expected text to the system clipboard. Inspected the actual result window and checked that only the Pluck process remained. The automation sends app-bound keyboard input, so it did not reproduce the original physical global-key event dispatch to both old processes.
+
+All 18 OCR checks passed for both builds. Strict code-signature and ZIP extraction checks passed. The local compact bundle remains 59,267 bytes with a 56,624-byte executable, exactly unchanged from 0.1.3. User text and clipboard were backed up for testing and restored before final relaunch.

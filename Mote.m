@@ -154,8 +154,9 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     if (hotkey) { UnregisterEventHotKey(hotkey); hotkey = NULL; }
     NSString *key = [prefs stringForKey:@"Shortcut"];
     UInt32 code = [@{@"2":@19, @"8":@28, @"9":@25}[key] unsignedIntValue];
+    // Shared registration lets old and new copies open overlapping selectors.
     OSStatus result = RegisterEventHotKey(code, cmdKey | shiftKey,
-        (EventHotKeyID){0x4d4f5445, 1}, GetApplicationEventTarget(), 0, &hotkey);
+        (EventHotKeyID){0x4d4f5445, 1}, GetApplicationEventTarget(), kEventHotKeyExclusive, &hotkey);
     captureMenu.keyEquivalent = key;
     captureMenu.keyEquivalentModifierMask = NSEventModifierFlagCommand | NSEventModifierFlagShift;
     for (NSMenuItem *item in NSApp.mainMenu.itemArray.firstObject.submenu.itemArray) {
@@ -254,7 +255,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         resultView.accessibilityLabel = @"Recognized text";
         scroll.documentView = resultView; [view addSubview:scroll];
         Label(@"On-device recognition. Last text saved on this Mac.\nScreenshots stay in memory. Settings are in the menu bar.", 14, NSMakeRect(28, 39, 464, 45), view);
-        Label(@"Pluck 0.1.3 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
+        Label(@"Pluck 0.1.4 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
         captureButton.nextKeyView = openButton;
         openButton.nextKeyView = copyButton;
         copyButton.nextKeyView = resultView;

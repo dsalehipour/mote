@@ -51,7 +51,7 @@ legacy_archive.write_bytes(archive.read_bytes())
     metadata['sha256'] + '  ' + name + '\n' for name in (archive.name, legacy_archive.name)))
 notes = f'''Pluck {version} is an experiment in making a tiny Mac app that is still practical. Press Command-Shift-2, drag around text, then paste its words anywhere. Recognition runs locally.
 
-Mote is now **Pluck**. Existing preferences and saved text are preserved.
+Pluck now claims its capture shortcut exclusively, preventing old and new copies from opening overlapping selectors. Quit any old Mote copy when upgrading. Existing preferences and saved text are preserved.
 
 Download **{archive.name}** below. Unzip it, move Pluck.app to Applications, and enable screen recording when prompted. Apple Silicon and macOS {metadata['minimum_macos']} or later are required.
 
