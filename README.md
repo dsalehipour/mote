@@ -2,7 +2,13 @@
 
 An experiment to build the smallest Mac app I could while still making something practical. Mote copies text you cannot normally select: press **⌘⇧2**, drag around text on screen, then paste it anywhere. Recognition runs locally on the Mac.
 
-The smallest signed build of **Mote 0.1.2 is 59,265 bytes (57.9 KiB)** for the entire app bundle. That is the sum of its uncompressed files, including its signature. macOS supplies the frameworks and OCR models; their size and runtime memory are separate.
+The GitHub release of **Mote 0.1.2 is 59,185 bytes (57.8 KiB)** for the entire app bundle. The earlier locally certificate-signed build is 59,265 bytes (57.9 KiB); toolchain and signing differences affect the exact total. That is the sum of its uncompressed files, including its signature. macOS supplies the frameworks and OCR models; their size and runtime memory are separate.
+
+## Download
+
+[Download the latest Mac package](https://github.com/dsalehipour/mote/releases/latest/download/Mote-macOS-arm64.zip) · [Release notes](https://github.com/dsalehipour/mote/releases/latest) · [Website](https://mote-tiny-mac.bigfootenvysme.chatgpt.site)
+
+The download URL follows the latest published release automatically. The experimental Apple Silicon release is ad-hoc signed and **not notarized by Apple**; macOS may block first launch. The website explains first-launch setup. Use the source build if you prefer to compile it yourself.
 
 ## Use
 
@@ -84,3 +90,11 @@ An optional [runtime-registration experiment](experiments/runtime/README.md) ret
 `benchmark.json` compares `-Oz` and `-O3` on the same two-line image. Their observed timings are close and do not establish general speed superiority. `-O3` was slightly smaller in this comparison and is the default.
 
 `tests/verify.py` checks exact OCR output on large text, small Retina-sized text, and light-on-dark text, plus blank, invalid, and missing images. Five separate processes per text case provide basic timing samples. The UI verification record is in `UI-VERIFICATION.md`.
+
+## Publishing future builds
+
+The `.github/workflows/release.yml` workflow runs for pushed `v*` tags. Update the version in the app and builder, commit the change, and push a matching version tag from a commit containing the workflow. GitHub's macOS runner builds the compact arm64 app, runs all 18 OCR checks, verifies the signature, then packages and verifies the extracted bytes before creating a release. A failed build publishes nothing. The workflow does not publish every unreviewed commit.
+
+Every release keeps the same asset name, `Mote-macOS-arm64.zip`, plus `SHA256SUMS.txt`, `release.json`, and the OCR report. `scripts/package_release.py` rejects tags that disagree with the bundle version. The landing page reads the latest release metadata on load and when revisited, and its stable download link follows GitHub's latest release even without JavaScript.
+
+The website source is stored and deployed through ChatGPT Sites, independently of the app repository. No scheduled agent or site rebuild is needed when publishing a new app release. The latest-release URL convention is documented by [GitHub](https://docs.github.com/en/repositories/releasing-projects-on-github/linking-to-releases).
