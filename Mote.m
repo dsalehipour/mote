@@ -165,7 +165,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         }
     }
     captureButton.title = [NSString stringWithFormat:@"Capture text   %@", self.shortcut];
-    if (result != noErr) [self setMessage:@"Shortcut is in use. Choose another in the Mote menu."];
+    if (result != noErr) [self setMessage:@"Shortcut is in use. Choose another in the Pluck menu."];
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     prefs = NSUserDefaults.standardUserDefaults;
@@ -179,13 +179,13 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     savedMessage = stateError ? @"Local storage unavailable. Captures can still be copied." : @"Ready. Select an area, then paste its words anywhere.";
 
     status = [NSStatusBar.systemStatusBar statusItemWithLength:NSVariableStatusItemLength];
-    status.button.image = [NSImage imageWithSystemSymbolName:@"text.viewfinder" accessibilityDescription:@"Mote"];
+    status.button.image = [NSImage imageWithSystemSymbolName:@"text.viewfinder" accessibilityDescription:@"Pluck"];
     status.button.image.template = YES;
-    status.button.toolTip = @"Mote — copy text from your screen";
+    status.button.toolTip = @"Pluck — copy text from your screen";
     NSMenu *menu = [NSMenu new]; menu.delegate = (id)self; status.menu = menu;
     captureMenu = [self item:@"Capture text" action:@selector(capture:) menu:menu];
     [self item:@"Open image…" action:@selector(openImage:) menu:menu];
-    [self item:@"Show Mote / last result" action:@selector(show:) menu:menu];
+    [self item:@"Show Pluck / last result" action:@selector(show:) menu:menu];
     [self item:@"Copy last result" action:@selector(copyResult:) menu:menu];
     [menu addItem:NSMenuItem.separatorItem];
     NSMenu *shortcuts = [NSMenu new];
@@ -201,12 +201,12 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     [self item:@"Screen capture permission…" action:@selector(permission:) menu:menu];
     [self item:@"Reveal saved text" action:@selector(reveal:) menu:menu];
     [menu addItem:NSMenuItem.separatorItem];
-    NSMenuItem *quit = [self item:@"Quit Mote" action:@selector(quit:) menu:menu];
+    NSMenuItem *quit = [self item:@"Quit Pluck" action:@selector(quit:) menu:menu];
     quit.keyEquivalent = @"q";
 
     // Standard application/edit menus make text selection and keyboard navigation work.
     NSMenu *main = [NSMenu new];
-    NSMenuItem *appItem = [main addItemWithTitle:@"Mote" action:NULL keyEquivalent:@""];
+    NSMenuItem *appItem = [main addItemWithTitle:@"Pluck" action:NULL keyEquivalent:@""];
     // The same actions are keyboard-accessible from the app menu as from its status item.
     NSMenu *appMenu = [menu copy]; appMenu.delegate = (id)self; appItem.submenu = appMenu;
     NSMenuItem *edit = [main addItemWithTitle:@"Edit" action:NULL keyEquivalent:@""];
@@ -230,7 +230,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         window = [[MoteWindow alloc] initWithContentRect:NSMakeRect(0, 0, 520, 560)
             styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable
             backing:NSBackingStoreBuffered defer:NO];
-        window.title = @"Mote"; window.releasedWhenClosed = NO;
+        window.title = @"Pluck"; window.releasedWhenClosed = NO;
         [window setFrameAutosaveName:@"MoteWindow"];
         NSView *view = window.contentView;
         Label(@"Copy the uncopyable.", 29, NSMakeRect(28, 488, 464, 42), view);
@@ -254,7 +254,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         resultView.accessibilityLabel = @"Recognized text";
         scroll.documentView = resultView; [view addSubview:scroll];
         Label(@"On-device recognition. Last text saved on this Mac.\nScreenshots stay in memory. Settings are in the menu bar.", 14, NSMakeRect(28, 39, 464, 45), view);
-        Label(@"Mote 0.1.2 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
+        Label(@"Pluck 0.1.3 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
         captureButton.nextKeyView = openButton;
         openButton.nextKeyView = copyButton;
         copyButton.nextKeyView = resultView;
@@ -363,7 +363,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setBusy:NO];
                 BOOL denied = [error.domain isEqualToString:SCStreamErrorDomain] && error.code == SCStreamErrorUserDeclined;
-                [self setMessage:denied ? @"Allow Mote in System Settings → Privacy & Security → Screen & System Audio Recording, then try again." : @"Screen capture could not start. Check the display connection and try again."];
+                [self setMessage:denied ? @"Allow Pluck in System Settings → Privacy & Security → Screen & System Audio Recording, then try again." : @"Screen capture could not start. Check the display connection and try again."];
                 [self show:nil];
             }); return;
         }
@@ -403,7 +403,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
 - (void)selectSnapshot:(NSImage *)snapshot screen:(NSScreen *)screen {
     selectionWindow = [[SelectionWindow alloc] initWithContentRect:screen.frame styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     selectionWindow.delegate = (id)self;
-    selectionWindow.title = @"Mote — Select text";
+    selectionWindow.title = @"Pluck — Select text";
     selectionWindow.releasedWhenClosed = NO;
     selectionWindow.level = NSStatusWindowLevel + 1;
     selectionWindow.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorFullScreenAuxiliary;

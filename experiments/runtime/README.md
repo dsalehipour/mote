@@ -1,6 +1,6 @@
 # Runtime-registration size experiment
 
-This is the smallest build in Mote's experiment to make the smallest Mac app I could that still does something practical: copy text from a selected screen area. Version **0.1.2 is 59,265 bytes (57.9 KiB)** for the signed app, down from 78,321 bytes for the standard build, a **24.33% reduction**. The executable is 56,624 bytes.
+This is the smallest build in Pluck's experiment to make the smallest Mac app I could that still does something practical: copy text from a selected screen area. Version **0.1.2 is 59,265 bytes (57.9 KiB)** for the signed app, down from 78,321 bytes for the standard build, a **24.33% reduction**. The executable is 56,624 bytes.
 
 It keeps Command-Shift-2, mouse selection with a crosshair, Escape cancellation, the image picker, preferences, clipboard output, and the persistent last result. The original copy in /Applications is unchanged; the smaller 0.1.2 candidate runs separately.
 
@@ -10,10 +10,10 @@ From the repository root:
 
 ```sh
 SIGN_IDENTITY=qopy-dev python3 experiments/runtime/build.py
-python3 tests/verify.py --binary experiments/runtime/build/Mote.app/Contents/MacOS/Mote --report experiments/runtime/build/ocr-verification.json
+python3 tests/verify.py --binary experiments/runtime/build/Pluck.app/Contents/MacOS/Pluck --report experiments/runtime/build/ocr-verification.json
 ```
 
-Use your own existing signing identity, or omit `SIGN_IDENTITY` for ad-hoc signing. The local test used the existing development certificate. The candidate has the same bundle identifier as Mote: quit the installed app before launching it. Output stays in the ignored `experiments/runtime/build/` directory. Both build routes share the canonical source.
+Use your own existing signing identity, or omit `SIGN_IDENTITY` for ad-hoc signing. The local test used the existing development certificate. The candidate has the original Mote bundle identifier: quit the installed app before launching it. Output stays in the ignored `experiments/runtime/build/` directory. Both build routes share the canonical source.
 
 ## How it saves space
 
@@ -56,3 +56,7 @@ Removed arrow/Space/Return rectangle selection, its drawn keyboard crosshair, an
 In the signed running candidate, Command-Shift-2 opened the selector; Left, Space, Right, Down, and Return left it open without submitting a selection. Escape cancelled. A mouse drag over blank content completed with “No text found” and kept the previous result. Inspected the single-line hint and final main window in real screenshots. The running app also showed a successful 17-character screen recognition.
 
 The signed bundle shrank from 59,313 to 59,265 bytes, a saving of 48 bytes. Its machine-code section shrank from 18,096 to 17,288 bytes, but the containing 32 KiB segment and 16 KiB constant-data segment retained their alignment. Strict signature checks and the existing 18 OCR checks passed. The archive is compared with the exact UI-tested executable.
+
+## 0.1.3 Pluck branding
+
+The product and package are now Pluck. Local certificate-signed builds measure 59,267 bytes for the compact app (56,624-byte executable), and 78,323 bytes for the conventional app (75,680-byte executable). The rename adds two bundle bytes while retaining the original bundle identifier and durable state paths. GitHub release signing can produce a slightly different size.

@@ -52,3 +52,9 @@ Command-Shift-2 opened selection. Pressing Left, Space, Right, Down, and Return 
 The version is visible in the main-window footer. The keyboard rectangle code, drawn keyboard crosshair, and custom main-window arrow navigation are removed; native mouse crosshair behavior and Tab navigation remain. Both build routes passed strict signature checks. Existing OCR checks were reused without adding implementation-mirroring tests; reports are verification.json and experiments/runtime/ocr-verification.json.
 
 The corrected candidate remains running from experiments/runtime/build/Mote.app. The original installed bundle is unchanged. The signed app's uncompressed file total is 59,265 bytes (57.9 KiB), 48 bytes less than 0.1.1. Updated the README and runtime experiment documentation with the practical size-test purpose and exact measured sizes. Historical verification above describes older versions, including their now-removed keyboard selection.
+
+## 0.1.3 Pluck rename (2026-10-15)
+
+Both the conventional and compact certificate-signed builds passed all 18 existing OCR checks. Strict code-signature checks and ZIP extraction with byte-for-byte comparison passed. The compact local bundle is 59,267 bytes, including its signature; its executable is 56,624 bytes.
+
+Launched the compact Pluck.app and visually inspected the renamed main window, footer, and application menu. The existing saved result loaded from the unchanged storage location. Command-Shift-2 opened the renamed selection overlay and Escape returned to the app. No screen-capture permission change was needed on this Mac. This focused rename check does not establish notarization, behavior on other Macs, or a new complete capture-to-paste regression pass.

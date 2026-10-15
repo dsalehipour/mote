@@ -1,34 +1,34 @@
 {
-  "binary": "/Users/darius/Documents/Codex/2026-10-11/what/outputs/Mote/Mote.app/Contents/MacOS/Mote",
+  "binary": "/Users/darius/Documents/Codex/2026-10-11/what/outputs/Mote/Pluck.app/Contents/MacOS/Pluck",
   "cases": [
     {
       "case": "large",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.244,
+      "median_seconds": 0.265,
       "range_seconds": [
-        0.242,
-        0.296
+        0.255,
+        0.513
       ]
     },
     {
       "case": "small-retina",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.247,
+      "median_seconds": 0.268,
       "range_seconds": [
-        0.24,
-        0.255
+        0.249,
+        0.303
       ]
     },
     {
       "case": "dark",
       "passed": true,
       "runs": 5,
-      "median_seconds": 0.255,
+      "median_seconds": 0.279,
       "range_seconds": [
-        0.244,
-        0.33
+        0.242,
+        0.287
       ]
     },
     {
