@@ -1,0 +1,22 @@
+{
+  "name": "Pluck: Copy Screen Text",
+  "platform": "MAC_OS",
+  "primaryLocale": "en-US",
+  "sku": "pluck-macos",
+  "bundleId": "com.darius.mote",
+  "subtitle": "Copy text from your screen",
+  "primaryCategory": "PRODUCTIVITY",
+  "secondaryCategory": "UTILITIES",
+  "price": "FREE",
+  "release": "MANUAL_AFTER_APPROVAL",
+  "marketingUrl": "https://pluck.bigfootenvysme.chatgpt.site/",
+  "supportUrl": "https://github.com/dsalehipour/pluck/issues",
+  "privacyPolicyUrl": "https://pluck.bigfootenvysme.chatgpt.site/privacy",
+  "copyright": "2026 Darius Salehipour",
+  "keywords": "ocr,text,screen,capture,copy,clipboard,screenshot,pdf,productivity",
+  "description": "Copy the uncopyable.\n\nPluck turns words on your screen into text you can paste anywhere. Press Command-Shift-2, drag around the words you want, and paste. Use it with screenshots, videos, PDFs, presentations, and other apps.\n\n\u2022 Recognize text on your Mac with Apple's built-in OCR.\n\u2022 Open an image to copy its words without changing the original.\n\u2022 Reopen or copy your last result from the menu bar.\n\u2022 Choose another shortcut or adjust recognition settings.\n\nNo account, ads, analytics, or uploaded screenshots. Pluck takes a still image only when you trigger capture, keeps it in memory, and captures no audio. The latest recognized text and your settings are saved locally.\n\nPluck began as a challenge to build a very small Mac app that does something practical. It uses the frameworks already on your Mac, with no bundled OCR model or web runtime.\n\nRequires Apple Silicon and macOS 14 or later. macOS Screen Recording permission is required for screen capture; image import works without it.",
+  "reviewNotes": "Pluck is a native macOS menu-bar utility. Its main window appears on launch; it remains available from the menu bar after closing the window. No account or sign-in is required.\n\nScreen capture: press Command-Shift-2 or click Capture text. Grant Screen & System Audio Recording permission to Pluck in System Settings when macOS asks, then quit and reopen Pluck if macOS requires it. macOS may also show a ScreenCaptureKit confirmation; allow it to continue. Drag one rectangle around visible text and release the mouse. The recognized text is copied to the clipboard. Escape cancels. No audio is captured.\n\nImage import: click Open image and choose a PNG or JPEG containing text. Recognition uses Vision entirely on device. The sandbox grants read-only access to the user-selected image.\n\nThe latest recognized text and preferences persist only on the Mac. Privacy policy is available in the Pluck menu. If another copy of Pluck is running, quit it first to release the exclusive global shortcut.\n\nThis build supports Apple Silicon Macs only.\n\nScreenshot artwork: the four product images are AI-generated illustrative compositions with fictional website/app content showing screen-region selection and extracted clipboard text. The \"Copied text\" cards and connector arrows explain the result; they are not separate Pluck popup interfaces. Pluck operates through screen capture and local OCR, without integrations with the depicted apps.",
+  "appPrivacy": "DATA_NOT_COLLECTED",
+  "usesNonExemptEncryption": false,
+  "reviewContact": null
+}

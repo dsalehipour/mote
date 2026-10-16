@@ -1,0 +1,33 @@
+{
+  "appVersion": "1.0",
+  "build": "6",
+  "screenshots": 4,
+  "motionStudyIsAppStorePreview": false,
+  "files": [
+    {
+      "name": "01-copy-the-uncopyable.png",
+      "bytes": 330557,
+      "sha256": "9663aee0718476f1dd1bbf1b00cd5419b81aa89aef4877bd3f5b793f5d3277dd"
+    },
+    {
+      "name": "02-image-to-text.png",
+      "bytes": 349437,
+      "sha256": "72c21c8a52c1240625f3850cf2abd9909b5e7a55c0b1cd1904ec29efe702cddb"
+    },
+    {
+      "name": "03-one-shortcut.png",
+      "bytes": 301621,
+      "sha256": "e7b2ff6541ba33e2622d7bc7225955bfdb1fc2cfd0438669e288c501fc4265f7"
+    },
+    {
+      "name": "04-on-your-mac.png",
+      "bytes": 302802,
+      "sha256": "a572e94ddcffa723162e5a6de29b5908c742b3907e0a6dd8daa1e6020bf40a0d"
+    },
+    {
+      "name": "pluck-motion-study.mp4",
+      "bytes": 1266244,
+      "sha256": "26fd1a8c450b96a5a3a4433a22ab435d8a3cdf369fe62b32c0786ba3ec4e1e97"
+    }
+  ]
+}

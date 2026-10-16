@@ -1,0 +1,8 @@
+Use case: precise-object-edit / ads-marketing.
+Refine this Pluck promotional image while preserving its existing headline, supporting copy, brand, warm ivory/forest-green/cobalt palette, exact photographed source text, overall composition, high quality photography and typography.
+
+Make exactly these targeted improvements:
+1. The extracted result on the right must clearly be DIGITAL EDITABLE TEXT, not another physical object. Remove the physical paper texture, torn edge, fold, angled perspective and physical paper shadow from that right output. Replace it with a perfectly front-facing, axis-aligned, very clean white digital text surface floating on the warm ivory background, subtle 1px border, modest small-radius corners, NO app title bar, NO toolbar, NO controls. The only label is "Copied text", dark enough to read; preserve the same extracted text exactly as in the input, now typeset horizontally, with a distinct cobalt insertion caret at its end. The source photograph should remain unmistakably photographic and distinct from the digital result. This is not a Pluck app window.
+2. Change the selection outline over the source photo into a simple straight rectangular SCREEN REGION: top/bottom exactly horizontal, left/right exactly vertical, even though the physical source is in perspective. No skewed polygon, no perspective warp. Thin cobalt stroke, small crosshair at lower-right corner, no drag-resize handles. Enclose the full source phrase. Preserve the clear connector arrow toward the digital text output.
+3. Keep all headline and example text exact. Keep the original photographic source, video controls if present, warm minimal mood and breathing room. Do not add new copy or branding.
+Final image only.

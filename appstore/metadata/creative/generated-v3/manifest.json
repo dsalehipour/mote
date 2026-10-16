@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-16",
+  "status": "submitted_waiting_for_review",
+  "images": [
+    {
+      "file": "01-website-image.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1476661,
+      "sha256": "ab12e037ab3b7afe1eae00aa81dcffc2e0c125d1f5abd52b53b88ae8e1e5cf41"
+    },
+    {
+      "file": "02-slack-screenshot.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1392890,
+      "sha256": "ef7f5705dbf4c8699da6b60373a52309ed63d8afafc13c4f349b9ede7252e397"
+    },
+    {
+      "file": "03-canvas-app.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1381687,
+      "sha256": "d6baeb334afb6219bc8830f09f94fcf808a7348b16157cc5dacfc614cf0cec9f"
+    },
+    {
+      "file": "04-scanned-pdf.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1801317,
+      "sha256": "8446bc04130f460641f33813b6cadbb43e6f88bbf5479fdd54236d02e4aa6381"
+    }
+  ],
+  "submissionId": "98a0a587-d833-45df-a672-4345adc529f5",
+  "submittedAt": "2026-10-16T12:03:00-05:00",
+  "build": "1.0 (6)",
+  "submittedExports": "appstore/"
+}

@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-10-16",
+  "status": "local_review_concepts_not_uploaded",
+  "images": [
+    {
+      "file": "01-photo.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 2184327,
+      "sha256": "fdd8c5b32d34a4f9a0ab2ec6033e36ba730235f39ce4e7255bc042ab770ce8c5"
+    },
+    {
+      "file": "02-video.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 1854994,
+      "sha256": "c580df35868fc45fb37d19b1b656625582c7162dac1a66e8cf341c6dd2e5975f"
+    },
+    {
+      "file": "03-scan.png",
+      "width": 1586,
+      "height": 992,
+      "bytes": 2253687,
+      "sha256": "02d9682d2d7ad68901b310e42488a6e206e5bd7ee74351bba6d1cfe8b8577b03"
+    }
+  ]
+}
