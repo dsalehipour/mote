@@ -42,6 +42,8 @@ Launch the development-signed app once before the CLI checks to establish its co
 
 ## Submission material
 
-`metadata/listing.json` holds the draft listing and reviewer instructions; private review-contact data is intentionally absent. `metadata/screenshot.html` frames an actual native app screenshot. Render it at 1280 × 800 and inspect the resulting PNG before uploading.
+`metadata/listing.json` holds the listing and reviewer instructions; private review-contact data is intentionally absent. `metadata/creative` contains editable compositions, native source captures, and the four 1280 × 800 PNG screenshots used in the submission. The separate motion study is a screenshot animation for marketing review, not an uploaded App Store preview.
+
+Version 1.0 (6) was submitted on October 16, 2026 and verified as **Waiting for Review**. See [VERIFICATION.md](VERIFICATION.md) for the review-record link, submission ID, validation evidence, and release settings.
 
 Create the macOS app record in App Store Connect, upload the signed package, complete the privacy and age-rating questionnaires, choose the build, and submit for review. Keep the app free and select manual release after approval. A successful local archive/export is not an App Store upload, submission, approval, or public release.

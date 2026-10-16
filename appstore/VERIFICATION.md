@@ -1,4 +1,4 @@
-# App Store preparation verification
+# App Store submission verification
 
 Checked October 16, 2026 with Xcode 26.6 (17F113), SDK 26.5, Apple Silicon.
 
@@ -30,12 +30,26 @@ The user's initial stumble immediately after macOS's second permission prompt wa
 
 Private review contact information and signing credentials are intentionally excluded from this repository. App Store Connect app ID: `6823632660`; title: `Pluck: Copy Screen Text`.
 
-At 08:57 CDT on October 16, 2026, Xcode reported "Upload succeeded" and "EXPORT SUCCEEDED" for version 1.0 (6). Apple processed the build, and it is attached to version 1.0. Description, keywords, support/marketing URLs, review information, and manual release were saved and verified after reload. App Review submission and approval are still pending. App Information has intermittently returned service errors during metadata setup.
+At 08:57 CDT on October 16, 2026, Xcode reported "Upload succeeded" and "EXPORT SUCCEEDED" for version 1.0 (6). Apple processed the build, and it is attached to version 1.0. Description, keywords, support/marketing URLs, review information, and manual release were saved and verified after reload.
+
+## Submitted to App Review
+
+At **10:24 AM CDT on October 16, 2026**, App Store Connect confirmed **1 Item Submitted**. The resulting review record shows macOS version **1.0 (6)** as **Waiting for Review**.
+
+- Submission ID: `b64aca3b-eec2-4321-b6e5-9d92b070bfc6`.
+- [App Store Connect review record](https://appstoreconnect.apple.com/apps/6823632660/distribution/reviewsubmissions/details/b64aca3b-eec2-4321-b6e5-9d92b070bfc6).
+- Privacy policy and **Data Not Collected** declaration are published.
+- Subtitle is **Copy text from your screen**; categories are **Productivity** and **Utilities**.
+- Content rights are saved. The age-rating questionnaire is complete, with a calculated **4+** global rating and Apple's regional equivalents; no rating override or Made for Kids designation was selected.
+- Free pricing and availability for all **175 countries or regions** are saved. Returning to Current Price showed zero price/proceeds in all 350 table cells.
+- **Manual release after approval** remains selected. Submission does not mean approval or public availability.
+
+App Information previously returned errors while loading age ratings and saving dependent fields. A fresh load after saving content rights allowed the questionnaire to complete; categories then saved, and Apple's submission validation passed. The cause of the earlier service errors was not established.
+
+The final review page was visually inspected and a local confirmation capture saved as `work/apple-waiting-for-review.jpg`. The public GitHub release remains the existing experimental direct download; this submission does not replace or notarize that ZIP.
 
 ## Artwork exports
 
 The warm, minimal artwork sources and four PNG exports live in `metadata/creative`. A 20.27-second, 1920 × 1080 H.264 motion study is included for local review; it is a screenshot animation, not a recorded walkthrough, and was not uploaded as an App Store preview.
 
 An export mismatch initially gave JPEG files `.png` names, causing Apple processing errors. All affected exports and source captures were transcoded to actual PNG, verified by signature/format/dimensions, and the four failed listing assets were replaced. Corrected images rendered in Apple's gallery and remained after reload. The export manifest hashes and local artwork ZIP integrity also passed.
-
-Privacy policy URL and Data Not Collected answers are saved in App Store Connect. The final privacy-publication agreement awaits owner confirmation. The App Information Age Ratings section returns an error; subtitle/category saves were rejected as dependent-field validation errors. These fields are prepared locally but not claimed as saved. Free pricing and availability for all 175 countries or regions were saved. Returning to the pricing page and opening Current Price showed zero price/proceeds in all 350 table cells. Content-rights setup and final App Review submission remain pending.
