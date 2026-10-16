@@ -29,3 +29,5 @@ Sizes exclude filesystem allocation, Apple-provided frameworks/models, and runti
 The user's initial stumble immediately after macOS's second permission prompt was not reproduced with the now-approved permission. The change addresses the verified silent-ignore branch and activation handoff; it does not claim to reproduce every fresh-permission OS sequence. An actual App Store installation and Apple's review remain separate from these local checks.
 
 Private review contact information and signing credentials are intentionally excluded from this repository. App Store Connect app ID: `6823632660`; title: `Pluck: Copy Screen Text`.
+
+At 08:57 CDT on October 16, 2026, Xcode reported "Upload succeeded" and "EXPORT SUCCEEDED" for version 1.0 (6). Apple reported that the uploaded package was processing. This confirms upload, not App Review submission or approval. App Store Connect's Distribution page was returning a service error during listing preparation; the listing and review submission still need to be completed there.
