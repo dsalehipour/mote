@@ -1,6 +1,6 @@
 # Pluck App Store artwork
 
-The [generated-v2 concepts](generated-v2/README.md) explore a new direction focused on extracting text from photos, paused videos, and scanned pages. They are pending review and have not replaced the submitted screenshots below.
+The latest [generated-v3 concepts](generated-v3/README.md) show text inside website images, Slack attachments, a canvas app, and a scanned PDF viewer. The earlier [generated-v2 concepts](generated-v2/README.md) preserve the physical-photo direction. Both are design-review material and have not replaced the submitted screenshots below.
 
 Four 1280 × 800 screenshots use the marketing site's warm ivory, green, and blue palette. The Pluck windows are unaltered captures of the actual signed 1.0 (6) app recognizing the included sample image. They are placed in HTML compositions with headlines and contextual graphics.
 
