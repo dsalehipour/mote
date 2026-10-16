@@ -6,23 +6,23 @@
   "files": [
     {
       "name": "01-copy-the-uncopyable.png",
-      "bytes": 66359,
-      "sha256": "eb81d908e6d4c769302f659e67ae25b42de3ec6f114428ab092ad93ab2913a5b"
+      "bytes": 330557,
+      "sha256": "9663aee0718476f1dd1bbf1b00cd5419b81aa89aef4877bd3f5b793f5d3277dd"
     },
     {
       "name": "02-image-to-text.png",
-      "bytes": 74224,
-      "sha256": "1b48bcb713a75baafd2a944acbde6a10eb6f1417cbadd9359b5e4235e3d99fc7"
+      "bytes": 349437,
+      "sha256": "72c21c8a52c1240625f3850cf2abd9909b5e7a55c0b1cd1904ec29efe702cddb"
     },
     {
       "name": "03-one-shortcut.png",
-      "bytes": 69733,
-      "sha256": "4188004c1b2373e7c0fd18d319c75e893fd67fa40050144ae921b18ee577bbc1"
+      "bytes": 301621,
+      "sha256": "e7b2ff6541ba33e2622d7bc7225955bfdb1fc2cfd0438669e288c501fc4265f7"
     },
     {
       "name": "04-on-your-mac.png",
-      "bytes": 66280,
-      "sha256": "d5ba782e6d4ebd63214bbe6229ce4dfd51bb956ebb15af171f17731e99d47ea7"
+      "bytes": 302802,
+      "sha256": "a572e94ddcffa723162e5a6de29b5908c742b3907e0a6dd8daa1e6020bf40a0d"
     },
     {
       "name": "pluck-motion-study.mp4",

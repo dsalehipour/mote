@@ -11,7 +11,7 @@ Four 1280 × 800 screenshots use the marketing site's warm ivory, green, and blu
 - `sample.html`, `assets/sample.png`: original artwork recognized by Pluck.
 - `assets/pluck-import.png`, `assets/pluck-result.png`: native app captures.
 
-Serve this folder with a local static server and render each composition at exactly 1280 × 800. Verify the browser's actual viewport dimensions after opening a new tab. Inspect every exported PNG before uploading it.
+Serve this folder with a local static server and render each composition at exactly 1280 × 800. Verify the browser's actual viewport dimensions after opening a new tab. Inspect every exported PNG before uploading it. Screenshot APIs may return JPEG bytes; verify the file signature and transcode to actual RGB PNG when needed. Every submitted PNG must begin with the standard PNG signature and have the expected 1280 × 800 dimensions.
 
 ## Motion study
 
