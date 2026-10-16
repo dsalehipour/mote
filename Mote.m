@@ -201,6 +201,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     [menu addItem:NSMenuItem.separatorItem];
     [self item:@"Screen capture permission…" action:@selector(permission:) menu:menu];
     [self item:@"Reveal saved text" action:@selector(reveal:) menu:menu];
+    [self item:@"Privacy policy…" action:@selector(privacy:) menu:menu];
     [menu addItem:NSMenuItem.separatorItem];
     NSMenuItem *quit = [self item:@"Quit Pluck" action:@selector(quit:) menu:menu];
     quit.keyEquivalent = @"q";
@@ -255,7 +256,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         resultView.accessibilityLabel = @"Recognized text";
         scroll.documentView = resultView; [view addSubview:scroll];
         Label(@"On-device recognition. Last text saved on this Mac.\nScreenshots stay in memory. Settings are in the menu bar.", 14, NSMakeRect(28, 39, 464, 45), view);
-        Label(@"Pluck 0.1.4 · Apple Silicon", 14, NSMakeRect(28, 10, 464, 23), view);
+        Label([NSString stringWithFormat:@"Pluck %@ · Apple Silicon", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]], 14, NSMakeRect(28, 10, 464, 23), view);
         captureButton.nextKeyView = openButton;
         openButton.nextKeyView = copyButton;
         copyButton.nextKeyView = resultView;
@@ -296,6 +297,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"]];
 }
 - (void)reveal:(id)sender { [NSWorkspace.sharedWorkspace activateFileViewerSelectingURLs:@[stateURL]]; }
+- (void)privacy:(id)sender { [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:@"https://pluck.bigfootenvysme.chatgpt.site/privacy.html"]]; }
 - (void)quit:(id)sender { [NSApp terminate:nil]; }
 - (void)applicationWillTerminate:(NSNotification *)notification {
     if (hotkey) UnregisterEventHotKey(hotkey);
@@ -350,7 +352,12 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
     [self readHandler:[[VNImageRequestHandler alloc] initWithURL:panel.URL options:@{}]];
 }
 - (void)capture:(id)sender {
-    if (busy) return;
+    if (busy) {
+        // A macOS permission dialog can take focus from an existing selector.
+        // Reuse it on another shortcut press instead of silently ignoring it.
+        if (selectionWindow) [self focusSelection];
+        return;
+    }
     [self setBusy:YES];
     [self setMessage:@"Preparing screen capture…"];
     NSScreen *screen = NSScreen.mainScreen;
@@ -364,7 +371,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setBusy:NO];
                 BOOL denied = [error.domain isEqualToString:SCStreamErrorDomain] && error.code == SCStreamErrorUserDeclined;
-                [self setMessage:denied ? @"Allow Pluck in System Settings → Privacy & Security → Screen & System Audio Recording, then try again." : @"Screen capture could not start. Check the display connection and try again."];
+                [self setMessage:denied ? @"Enable Pluck in Screen & System Audio Recording. Then quit and reopen Pluck to apply permission." : @"Screen capture could not start. Check the display connection and try again."];
                 [self show:nil];
             }); return;
         }
@@ -401,6 +408,16 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         if (selectionWindow.keyWindow) [NSCursor.crosshairCursor set];
     });
 }
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    // Permission dialogs may finish activating after the screenshot callback.
+    if (selectionWindow && !selectionWindow.keyWindow) [self focusSelection];
+}
+- (void)focusSelection {
+    [NSApp activateIgnoringOtherApps:YES];
+    [selectionWindow makeKeyAndOrderFront:nil];
+    [selectionWindow makeFirstResponder:selectionWindow.contentView];
+    [NSCursor.crosshairCursor set];
+}
 - (void)selectSnapshot:(NSImage *)snapshot screen:(NSScreen *)screen {
     selectionWindow = [[SelectionWindow alloc] initWithContentRect:screen.frame styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     selectionWindow.delegate = (id)self;
@@ -427,9 +444,7 @@ static NSTextField *Label(NSString *text, CGFloat size, NSRect frame, NSView *pa
         [self readHandler:handler];
     };
     selectionWindow.contentView = view;
-    [NSApp activateIgnoringOtherApps:YES];
-    [selectionWindow makeKeyAndOrderFront:nil];
-    [selectionWindow makeFirstResponder:view];
+    [self focusSelection];
     // A shortcut can open the overlay under a stationary pointer, without a
     // cursor-rectangle entry event. Activate its cursor immediately as well.
     [selectionWindow invalidateCursorRectsForView:view];

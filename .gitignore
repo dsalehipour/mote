@@ -3,3 +3,6 @@ Mote.app/
 __pycache__/
 work/
 Pluck.app/
+appstore/build/
+*.xcuserstate
+xcuserdata/
