@@ -12,6 +12,7 @@ Checked October 16, 2026 with Xcode 26.6 (17F113), SDK 26.5, Apple Silicon.
 - The sandboxed image picker read a PNG outside the container, recognized its text, and saved the result inside the app container with mode 0600.
 - A live screen selection recognized a two-line TextEdit sample on the first drag. Pasting into a fresh TextEdit document matched the 76-character result.
 - The updated archive opened its selector from the shortcut and cancelled with Escape. Reopening restored the last result. There was only one running Pluck process after replacing the earlier test build.
+- After granting screen permission, the user confirmed that one press of Command–Shift–2 from another app immediately brings up the crosshair in the updated build.
 - The new privacy menu entry is present. The policy is published and its public URL returns the policy with HTTP 200 after a canonical URL redirect.
 - The privacy page was visually checked on desktop and mobile. The store screenshot is a 1280 × 800 PNG framing an actual native app window, with no private screen content.
 
