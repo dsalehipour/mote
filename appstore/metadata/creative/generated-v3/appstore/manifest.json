@@ -1,0 +1,51 @@
+{
+  "prepared": "2026-10-16",
+  "status": "submitted_waiting_for_review",
+  "source": "../ native generated-v3 PNGs",
+  "exportMethod": "macOS sips resampleHeightWidth 900 1440; full composition retained",
+  "images": [
+    {
+      "file": "01-website-image.png",
+      "width": 1440,
+      "height": 900,
+      "color": "RGB",
+      "alpha": false,
+      "bytes": 1299566,
+      "sha256": "00c2d1b9a6222b4d77dab7f4dd722c0841e2ecf6925ecb8a0c211cc110e7deba",
+      "appleAssetId": "4dc00019-6b85-8f14-8f35-30ba1bff37f9"
+    },
+    {
+      "file": "02-slack-screenshot.png",
+      "width": 1440,
+      "height": 900,
+      "color": "RGB",
+      "alpha": false,
+      "bytes": 1216241,
+      "sha256": "31eb68e6b22857ed2e90aa97bcbf308dc04cd6aedcfe7662120c7ecd4a972e83",
+      "appleAssetId": "c6c00019-6b85-8f14-8f36-3b071cbc607e"
+    },
+    {
+      "file": "03-canvas-app.png",
+      "width": 1440,
+      "height": 900,
+      "color": "RGB",
+      "alpha": false,
+      "bytes": 1189647,
+      "sha256": "cf129e56aa56039a4e5a1d89e9d316513213eca108cf8da4df8650aad212a963",
+      "appleAssetId": "7d400019-6b85-8f14-8f2a-6bab99e91995"
+    },
+    {
+      "file": "04-scanned-pdf.png",
+      "width": 1440,
+      "height": 900,
+      "color": "RGB",
+      "alpha": false,
+      "bytes": 1495620,
+      "sha256": "3669c981f1b0367308aafb7ce057432ca2b884915dcb0b22686bd11b98809c32",
+      "appleAssetId": "18000019-6b85-8f14-8f38-73008d0bb46d"
+    }
+  ],
+  "submissionId": "98a0a587-d833-45df-a672-4345adc529f5",
+  "submittedAt": "2026-10-16T12:03:00-05:00",
+  "build": "1.0 (6)"
+}

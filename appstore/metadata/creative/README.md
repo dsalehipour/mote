@@ -1,8 +1,10 @@
 # Pluck App Store artwork
 
-The latest [generated-v3 concepts](generated-v3/README.md) show text inside website images, Slack attachments, a canvas app, and a scanned PDF viewer. The earlier [generated-v2 concepts](generated-v2/README.md) preserve the physical-photo direction. Both are design-review material and have not replaced the submitted screenshots below.
+The approved [generated-v3 artwork](generated-v3/README.md) shows text inside website images, Slack attachments, a canvas app, and a scanned PDF viewer. Its four 1440 × 900 exports in `generated-v3/appstore` replaced the original set and were submitted at 12:03 PM CDT on October 16, 2026. See [submission verification](../../VERIFICATION.md). The earlier [generated-v2 concepts](generated-v2/README.md) preserve the physical-photo direction and were not uploaded.
 
-Four 1280 × 800 screenshots use the marketing site's warm ivory, green, and blue palette. The Pluck windows are unaltered captures of the actual signed 1.0 (6) app recognizing the included sample image. They are placed in HTML compositions with headlines and contextual graphics.
+## Original artwork retained for reference
+
+The original four 1280 × 800 screenshots use the marketing site's warm ivory, green, and blue palette. The Pluck windows are unaltered captures of the actual signed 1.0 (6) app recognizing the included sample image. They are placed in HTML compositions with headlines and contextual graphics. These originals are no longer attached to the current Store submission.
 
 - `exports/01-copy-the-uncopyable.png`: primary product screenshot.
 - `exports/02-image-to-text.png`: original image and real OCR result.

@@ -1,6 +1,6 @@
 {
   "date": "2026-10-16",
-  "status": "generated_review_concepts_not_uploaded",
+  "status": "submitted_waiting_for_review",
   "images": [
     {
       "file": "01-website-image.png",
@@ -30,5 +30,9 @@
       "bytes": 1801317,
       "sha256": "8446bc04130f460641f33813b6cadbb43e6f88bbf5479fdd54236d02e4aa6381"
     }
-  ]
+  ],
+  "submissionId": "98a0a587-d833-45df-a672-4345adc529f5",
+  "submittedAt": "2026-10-16T12:03:00-05:00",
+  "build": "1.0 (6)",
+  "submittedExports": "appstore/"
 }
