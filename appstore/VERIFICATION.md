@@ -14,7 +14,7 @@ Checked October 16, 2026 with Xcode 26.6 (17F113), SDK 26.5, Apple Silicon.
 - The updated archive opened its selector from the shortcut and cancelled with Escape. Reopening restored the last result. There was only one running Pluck process after replacing the earlier test build.
 - After granting screen permission, the user confirmed that one press of Command–Shift–2 from another app immediately brings up the crosshair in the updated build.
 - The new privacy menu entry is present. The policy is published and its public URL returns the policy with HTTP 200 after a canonical URL redirect.
-- The privacy page was visually checked on desktop and mobile. The store screenshot is a 1280 × 800 PNG framing an actual native app window, with no private screen content.
+- The privacy page was visually checked on desktop and mobile. Four 1280 × 800 RGB PNG screenshots frame actual native app windows, with no private screen content. Their local exports and Apple-rendered images were visually inspected. All four upload records and build 1.0 (6) persisted after reloading App Store Connect.
 
 Measured artifact file bytes for this export:
 
@@ -30,4 +30,12 @@ The user's initial stumble immediately after macOS's second permission prompt wa
 
 Private review contact information and signing credentials are intentionally excluded from this repository. App Store Connect app ID: `6823632660`; title: `Pluck: Copy Screen Text`.
 
-At 08:57 CDT on October 16, 2026, Xcode reported "Upload succeeded" and "EXPORT SUCCEEDED" for version 1.0 (6). Apple reported that the uploaded package was processing. This confirms upload, not App Review submission or approval. App Store Connect's Distribution page was returning a service error during listing preparation; the listing and review submission still need to be completed there.
+At 08:57 CDT on October 16, 2026, Xcode reported "Upload succeeded" and "EXPORT SUCCEEDED" for version 1.0 (6). Apple processed the build, and it is attached to version 1.0. Description, keywords, support/marketing URLs, review information, and manual release were saved and verified after reload. App Review submission and approval are still pending. App Information has intermittently returned service errors during metadata setup.
+
+## Artwork exports
+
+The warm, minimal artwork sources and four PNG exports live in `metadata/creative`. A 20.27-second, 1920 × 1080 H.264 motion study is included for local review; it is a screenshot animation, not a recorded walkthrough, and was not uploaded as an App Store preview.
+
+An export mismatch initially gave JPEG files `.png` names, causing Apple processing errors. All affected exports and source captures were transcoded to actual PNG, verified by signature/format/dimensions, and the four failed listing assets were replaced. Corrected images rendered in Apple's gallery and remained after reload. The export manifest hashes and local artwork ZIP integrity also passed.
+
+Privacy policy URL and Data Not Collected answers are saved in App Store Connect. The final privacy-publication agreement awaits owner confirmation. The App Information Age Ratings section returns an error; subtitle/category saves were rejected as dependent-field validation errors. These fields are prepared locally but not claimed as saved. Content-rights and pricing/availability setup, plus final App Review submission, remain pending.
